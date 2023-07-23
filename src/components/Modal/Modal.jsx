@@ -1,9 +1,7 @@
 //Modal.jsx
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'; // Importa PropTypes
 import css from './Styles/Modal.module.css';
-
-import Loader from '../Loader/Loader';
-
 class Modal extends Component {
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
@@ -38,5 +36,8 @@ class Modal extends Component {
     );
   }
 }
-
+Modal.propTypes = {
+  image: PropTypes.string,
+  onClose: PropTypes.func.isRequired,
+};
 export default Modal;

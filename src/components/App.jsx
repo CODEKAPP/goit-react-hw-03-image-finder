@@ -8,6 +8,9 @@ import Modal from './Modal/Modal';
 import Loader from './Loader/Loader';
 import { toast, Toaster } from 'react-hot-toast'; // Importa la función toast de react-hot-toast
 
+const generateUniqueKey = id => {
+  return `${id}_${Math.random()}`;
+};
 
 const API_KEY = '37237543-aa08958e4f4ec45835618d6d1';
 
@@ -33,8 +36,9 @@ class App extends Component {
         query: searchQuery,
       });
        toast.success('Búsqueda exitosa!');
-    } catch (error) {
-      console.error('Error fetching images:', error);
+      } catch (error) {
+        toast.error('BError fetching images:', error);
+        console.error('Error fetching images:', error);
       this.setState({ loading: false });
     }
   };
@@ -76,9 +80,10 @@ class App extends Component {
       <section>
         <Searchbar onSubmit={this.handleImageSearch} />
         <ImageGallery>
-          {images.map(image => (
+          {images.map((image, index) => (
             <ImageGalleryItem
-              key={image.id}
+              // key={image.id + index}
+              key={generateUniqueKey(image.id)}
               image={image}
               onClick={this.openModal}
             />
@@ -89,7 +94,7 @@ class App extends Component {
           <Button onClick={this.loadMoreImages} />
         )}
         {showModal && <Modal image={selectedImage} onClose={this.closeModal} />}
-        <Toaster />        {/* Agrega el componente Toaster */}
+        <Toaster /> {/* Agrega el componente Toaster */}
       </section>
     );
   }
