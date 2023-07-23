@@ -30,18 +30,31 @@ class App extends Component {
       const response = await axios.get(
         `https://pixabay.com/api/?key=${API_KEY}&q=${searchQuery}&image_type=photo&orientation=horizontal&per_page=12`
       );
+      const images = response.data.hits;
       this.setState({
-        images: response.data.hits,
+        // images: response.data.hits,
+        images,
         loading: false,
         query: searchQuery,
       });
-       toast.success('Búsqueda exitosa!');
-      } catch (error) {
-        toast.error('BError fetching images:', error);
-        console.error('Error fetching images:', error);
+      if (images.length === 0) {
+        toast.error('No se encontraron resultados');
+      } else {
+        toast.success('Búsqueda exitosa!');
+      }
+    } catch (error) {
+      toast.error('Error fetching images:', error);
+      console.error('Error fetching images:', error);
       this.setState({ loading: false });
     }
   };
+  //      toast.success('Búsqueda exitosa!');
+  //     } catch (error) {
+  //       toast.error('BError fetching images:', error);
+  //       console.error('Error fetching images:', error);
+  //     this.setState({ loading: false });
+  //   }
+  // };
 
   // Método para cargar más imágenes cuando se presione el botón "Load more"
   loadMoreImages = async () => {
